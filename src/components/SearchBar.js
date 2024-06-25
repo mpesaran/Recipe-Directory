@@ -12,17 +12,19 @@ const navigate = useNavigate()
 const handleSubmit = (e) => {
     e.preventDefault()
 
-    navigate(`/serach?q=${term}`)
+    navigate(`/search?q=${term}`)
+    setTerm('')
 }
 
   return (
     <div className="searchbar">
         <form onSubmit= {handleSubmit}>  {/*we need submit because we want to handle  */}
-            <label htmlFor="serch">Search: </label>
+            <label htmlFor="search">Search: </label>
             <input 
                 type="text" 
                 id = "search"
                 onChange={(e) => setTerm(e.target.value)}
+                value={term}
                 required
             />
         </form>

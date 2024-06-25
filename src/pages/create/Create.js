@@ -5,6 +5,7 @@ import {projectFirestore} from '../../firebase/config'
 
 // styles
 import './Create.css'
+import { useTheme } from '../../hook/useTheme'
 
 
 export default function Create() {
@@ -15,14 +16,15 @@ const [newIngredients, setNewIngredients] = useState('') //adding new ingredient
 const [ingredients , setIngredients] = useState([]) //array to keep ingredients list
 const ingredientInput = useRef(null)
 const navigate = useNavigate()
+const {color} = useTheme()
 
 
-const handleSubmit = (e)=> {
+const handleSubmit = async (e) => {
   e.preventDefault()
   const doc = ({title , ingredients , method , cookingTime : cookingTime + ' minutes'})
 
   try{
-    projectFirestore.collection('recipes').add(doc)
+    await projectFirestore.collection('recipes').add(doc)
     navigate('/')
   } catch(err){
     console.log(err)
@@ -56,20 +58,20 @@ const handleadd = (e) => {
 
         <label>
           <span>Recipe ingeredients: </span>
-          <div className="inggredients">
+          <div className="ingredients">
             <input 
               type="text"
               onChange={(e) => setNewIngredients(e.target.value)}
               value={newIngredients}
               ref = {ingredientInput}
             />
-            <button onClick={handleadd} className="btn">Add</button>
+            <button onClick={handleadd} className="btn" style = {{backgroundColor : color}}>Add</button>
           </div>
         </label>
         <p>Current Ingredients : {ingredients.map((i) => <em key = {i}>{i}, </em>)}</p> {/*when we have map all the items should have a key */}
 
         <label>
-          <span>Recipe Methos:</span>
+          <span>Recipe method:</span>
           <textarea 
             onChange={(e) => setMethod(e.target.value)}
             value = {method}
@@ -85,7 +87,7 @@ const handleadd = (e) => {
             required
           />
         </label>
-        <button className="button">Submit</button>
+        <button className="btn" style = {{backgroundColor : color}}>Submit</button>
       </form>
 
     </div>
